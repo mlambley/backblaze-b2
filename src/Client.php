@@ -253,6 +253,8 @@ class Client
             'sink' => isset($options['SaveAs']) ? $options['SaveAs'] : null,
         ];
 
+        $this->authorizeAccount();
+
         if (isset($options['FileId'])) {
             $requestOptions['query'] = ['fileId' => $options['FileId']];
             $requestUrl = $this->downloadUrl.'/b2api/v1/b2_download_file_by_id';
@@ -263,8 +265,6 @@ class Client
 
             $requestUrl = sprintf('%s/file/%s/%s', $this->downloadUrl, $options['BucketName'], $options['FileName']);
         }
-
-        $this->authorizeAccount();
 
         $response = $this->client->guzzleRequest('GET', $requestUrl, $requestOptions, false);
 
