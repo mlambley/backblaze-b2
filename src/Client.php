@@ -244,6 +244,8 @@ class Client
      */
     public function download(array $options)
     {
+        $this->authorizeAccount();
+
         $requestUrl = null;
         $customHeaders = $options['Headers'] ?? [];
         $requestOptions = [

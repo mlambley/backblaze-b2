@@ -326,6 +326,11 @@ class ClientTest extends TestCase
 
         $clientMock = $this->getMockBuilder(\BackblazeB2\Http\Client::class)->getMock();
         $mockGuzzleRequest = function ($method, $uri = null, array $options = [], $asJson = true) use ($uriResponses) {
+            if (isset($options['headers']) && array_key_exists('Authorization', $options['headers'])) {
+                //If header is present, it must not be empty
+                $this->assertNotNull($options['headers']['Authorization'], sprintf('No authorization for uri %s', $uri));
+            }
+
             if (isset($uriResponses[$uri])) {
                 $response = new \GuzzleHttp\Psr7\Response(200, [], $uriResponses[$uri]);
             } else {
