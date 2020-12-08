@@ -328,7 +328,7 @@ class ClientTest extends TestCase
         $mockGuzzleRequest = function ($method, $uri = null, array $options = [], $asJson = true) use ($uriResponses) {
             if (isset($options['headers']) && array_key_exists('Authorization', $options['headers'])) {
                 //If header is present, it must not be empty
-                $this->assertNotNull($options['headers']['Authorization'], sprintf('No authorization for uri %s', $uri));
+                $this->assertNotEmpty($options['headers']['Authorization'], sprintf('No authorization for uri %s', $uri));
             }
 
             if (isset($uriResponses[$uri])) {
