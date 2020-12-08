@@ -365,7 +365,7 @@ class Client
             if (!$options['FileId']) {
                 throw new NotFoundException();
             }
-        } else if (!isset($options['FileId']) && isset($options['BucketId']) && isset($options['FileName'])) {
+        } elseif (!isset($options['FileId']) && isset($options['BucketId']) && isset($options['FileName'])) {
             $options['FileId'] = $this->getFileIdFromBucketIdAndFileName($options['BucketId'], $options['FileName']);
 
             if (!$options['FileId']) {
