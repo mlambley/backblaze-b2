@@ -369,6 +369,12 @@ class Client
             if (!$options['FileId']) {
                 throw new NotFoundException();
             }
+        } else if (!isset($options['FileId']) && isset($options['BucketId']) && isset($options['FileName'])) {
+            $options['FileId'] = $this->getFileIdFromBucketIdAndFileName($options['BucketId'], $options['FileName']);
+
+            if (!$options['FileId']) {
+                throw new NotFoundException();
+            }
         }
 
         $response = $this->sendAuthorizedRequest('POST', 'b2_get_file_info', [
@@ -489,6 +495,26 @@ class Client
         $files = $this->listFiles([
             'BucketName' => $bucketName,
             'FileName'   => $fileName,
+        ]);
+
+        foreach ($files as $file) {
+            if ($file->getName() === $fileName) {
+                return $file->getId();
+            }
+        }
+    }
+
+    /**
+     * @param $bucketId
+     * @param $fileName
+     *
+     * @return mixed
+     */
+    protected function getFileIdFromBucketIdAndFileName($bucketId, $fileName)
+    {
+        $files = $this->listFiles([
+            'BucketId' => $bucketId,
+            'FileName' => $fileName,
         ]);
 
         foreach ($files as $file) {
