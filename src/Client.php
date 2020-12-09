@@ -363,14 +363,14 @@ class Client
      */
     public function getFile(array $options)
     {
-        if (!isset($options['FileId']) && isset($options['BucketName']) && isset($options['FileName'])) {
-            $options['FileId'] = $this->getFileIdFromBucketAndFileName($options['BucketName'], $options['FileName']);
+        if (!isset($options['FileId']) && isset($options['BucketId']) && isset($options['FileName'])) {
+            $options['FileId'] = $this->getFileIdFromBucketIdAndFileName($options['BucketId'], $options['FileName']);
 
             if (!$options['FileId']) {
                 throw new NotFoundException();
             }
-        } else if (!isset($options['FileId']) && isset($options['BucketId']) && isset($options['FileName'])) {
-            $options['FileId'] = $this->getFileIdFromBucketIdAndFileName($options['BucketId'], $options['FileName']);
+        } elseif (!isset($options['FileId']) && isset($options['BucketName']) && isset($options['FileName'])) {
+            $options['FileId'] = $this->getFileIdFromBucketAndFileName($options['BucketName'], $options['FileName']);
 
             if (!$options['FileId']) {
                 throw new NotFoundException();
